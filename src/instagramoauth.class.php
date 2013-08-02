@@ -134,10 +134,11 @@ class InstagramOAuth {
 			"response_type"	=>	"code"
 		);
 
-		$params_string = http_build_query($params);
 		if (is_array($this->permissions) && count($this->permissions) > 0) {
-			$params_string .= "&scope=" . implode("+", $this->permissions);
+			$params["scope"] = implode(" ", $this->permissions);
 		}
+
+		$params_string = http_build_query($params);
 
 		header("Location: " . sprintf("%s?%s", self::AUTHORIZEURL, $params_string));
 	}
@@ -324,7 +325,7 @@ class InstagramOAuth {
 	 * API response getter
 	 *
 	 * @param   bool  $decode
-	 * 
+	 *
 	 * @return  mixed
 	 */
 	function response($decode = TRUE) {
